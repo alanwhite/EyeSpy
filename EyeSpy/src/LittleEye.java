@@ -59,15 +59,16 @@ public class LittleEye extends JFrame {
 		double fps = cap.get(Videoio.CAP_PROP_FPS);
 		System.out.println("FPS="+fps);
 		
-
+		
 		
 		// start the thread that triggers the regular capture
 		new Animator().start();
 	}
 
 	public void paint(Graphics g){
+		long startT=System.nanoTime();
 		g = contentPane.getGraphics();
-
+		
 		// grab a frame from the webcam
 		cap.read(matRaw);
 		
@@ -102,7 +103,11 @@ public class LittleEye extends JFrame {
 		// populate the buffered image with the data from the grabbed frame
 		img.getRaster().setDataElements(0, 0, matFlipped.cols(), matFlipped.rows(), dat);
 		
+//		long startD = System.nanoTime();
 		g.drawImage(img, 0, 0, this);
+//		long stopD = System.nanoTime();
+//		System.out.println("Elapsed="+(System.nanoTime()-startT));
+//		System.out.println("Draw="+(stopD-startD));
 	}
 
 	class Animator extends Thread{
